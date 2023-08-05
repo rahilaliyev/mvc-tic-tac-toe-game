@@ -12,4 +12,16 @@ export default class View {
   updateStatusText(text) {
     this.statusText.textContent = text;
   }
+
+  listenClickingCell(callback) {
+    this.cells.forEach(cell => cell.addEventListener("click", callback));
+  }
+
+  listeningRestart(callback) {
+    this.restartBtn.addEventListener("click", () => {
+      callback();
+      this.cells.forEach(cell => (cell.textContent = ""));
+      this.updateStatusText("O növbədədir");
+    });
+  }
 }

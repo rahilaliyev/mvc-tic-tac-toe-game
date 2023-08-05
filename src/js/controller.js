@@ -4,14 +4,13 @@ export default class Controller {
   constructor(model, view) {
     this.model = model;
     this.view = view;
-    this.view.cells.forEach(cell => cell.addEventListener("click", this.cellClicked.bind(this)));
-    this.view.restartBtn.addEventListener("click", this.restartGame.bind(this));
   }
 
   //oyunu işə salmaq üçün funksiya
   init() {
     this.model.running = true;
-    this.view.updateStatusText(`${this.model.currentPlayer} növbədədir`);
+    this.view.listenClickingCell(this.cellClicked.bind(this));
+    this.view.listeningRestart(this.restartGame.bind(this));
   }
 
   //hüceyrəyə kliklənəndə işə düşməli olan funksiya
@@ -19,7 +18,7 @@ export default class Controller {
     //hüceyrənin indexini tapmaq
     const cellIndex = e.target.getAttribute("index");
 
-    //seçilmiş hüceyrənin boş olub olmadığını və ya oyunun bitib bitmədiyini yoxlayıram hər klikdə 
+    //seçilmiş hüceyrənin boş olub olmadığını və ya oyunun bitib bitmədiyini yoxlayıram hər klikdə
     if (this.model.options[cellIndex] !== "" || !this.model.running) {
       return;
     }
@@ -39,7 +38,7 @@ export default class Controller {
       this.model.running = false;
       this.view.updateStatusText(`${this.model.currentPlayer} uddu!`);
     } else if (!this.model.options.includes("")) {
-      // bütün xanalar dolub, amma qalib müəyyənləşməyibsə  
+      // bütün xanalar dolub, amma qalib müəyyənləşməyibsə
       this.model.running = false;
       this.view.updateStatusText(`Heç-heçə!`);
     } else {
@@ -52,7 +51,5 @@ export default class Controller {
   //oyunu yenidən başlamaq üçün funksiya
   restartGame() {
     this.model.restartGame();
-    this.view.cells.forEach(cell => (cell.textContent = ""));
-    this.view.updateStatusText(`${this.model.currentPlayer} növbədədir`);
   }
 }

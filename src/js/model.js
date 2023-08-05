@@ -21,6 +21,7 @@ export default class Model {
   changePlayer() {
     this.currentPlayer = this.currentPlayer === "X" ? "O" : "X";
   }
+  
 
   //qalibi nəticələrə görə yoxlamaq üçün funksiya
   checkWinner() {
@@ -28,7 +29,7 @@ export default class Model {
     for (const condition of this.winConditions) {
       const [cellA, cellB, cellC] = condition.map(index => this.options[index]);
 
-      if (cellA === "" || cellB === "" || cellC === "") {
+      if (!cellA || !cellB || !cellC) {
         continue;
       }
 
