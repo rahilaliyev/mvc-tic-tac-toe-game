@@ -17,11 +17,22 @@ export default class Model {
     ];
   }
 
+  get isRunning() {
+    return this.running;
+  }
+
+  set isRunning(value) {
+    this.running = value;
+  }
+
   //oyunçunu dəyişmək üçün funksiya
   changePlayer() {
     this.currentPlayer = this.currentPlayer === "X" ? "O" : "X";
   }
-  
+
+  getCellValue(value) {
+    return this.options[value];
+  }
 
   //qalibi nəticələrə görə yoxlamaq üçün funksiya
   checkWinner() {
@@ -46,5 +57,9 @@ export default class Model {
     this.currentPlayer = "O";
     this.options = ["", "", "", "", "", "", "", "", ""];
     this.running = true;
+  }
+
+  addOptionValue(index) {
+    this.options[index] = this.currentPlayer;
   }
 }

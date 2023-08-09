@@ -24,4 +24,8 @@ export default class View {
       this.updateStatusText("O növbədədir");
     });
   }
+
+  addTextContent(text, index) {
+    this.cells[index].textContent = text;
+  }
 }

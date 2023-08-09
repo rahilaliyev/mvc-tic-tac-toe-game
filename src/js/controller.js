@@ -8,7 +8,7 @@ export default class Controller {
 
   //oyunu işə salmaq üçün funksiya
   init() {
-    this.model.running = true;
+    this.model.isRunning = true;
     this.view.listenClickingCell(this.cellClicked.bind(this));
     this.view.listeningRestart(this.restartGame.bind(this));
   }
@@ -19,14 +19,14 @@ export default class Controller {
     const cellIndex = e.target.getAttribute("index");
 
     //seçilmiş hüceyrənin boş olub olmadığını və ya oyunun bitib bitmədiyini yoxlayıram hər klikdə
-    if (this.model.options[cellIndex] !== "" || !this.model.running) {
+    if (this.model.getCellValue(cellIndex) !== "" || !this.model.isRunning) {
       return;
     }
 
     //modeldəki optiona əlavə edirəm
-    this.model.options[cellIndex] = this.model.currentPlayer;
+    this.model.addOptionValue(cellIndex);
     //htmlə əlavə edirəm
-    this.view.cells[cellIndex].textContent = this.model.currentPlayer;
+    this.view.addTextContent(this.model.currentPlayer, cellIndex);
     //qalib olub olmadığını yoxlayıram
     this.checkWinner();
   }
@@ -35,11 +35,11 @@ export default class Controller {
   checkWinner() {
     //əgər qalib varsa
     if (this.model.checkWinner()) {
-      this.model.running = false;
+      this.model.isRunning = false;
       this.view.updateStatusText(`${this.model.currentPlayer} uddu!`);
     } else if (!this.model.options.includes("")) {
       // bütün xanalar dolub, amma qalib müəyyənləşməyibsə
-      this.model.running = false;
+      this.model.isRunning = false;
       this.view.updateStatusText(`Heç-heçə!`);
     } else {
       // qalib yoxdursa
